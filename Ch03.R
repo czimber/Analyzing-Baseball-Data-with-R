@@ -118,8 +118,8 @@ hof$HR.Rate <- with(hof, HR / AB)
 stripchart(HR.Rate ~ Era, data=hof)
 
 par(plt = c(.2, .94, .145, .883))
-stripchart(HR.Rate ~ Era, data = hof, 
-           method="jitter", pch=1, las=2)
+
+
 
 par(plt=c(.2, .94, .145, .883))
 boxplot(HR.Rate ~ Era, data=hof, las=2,
@@ -222,3 +222,65 @@ legend(10440, 20, legend=c("McGwire (70)", "Sosa (66)"),
        lwd=2, col=c("black", "grey"))
 
 ###########################
+# 3.11 Exercises
+
+hofpitching <- read.csv("hofpitching.csv")
+head(hofpitching)
+hofpitching$BP.group <- with(hofpitching,
+                             cut(BF, c(0, 10000, 15000, 20000, 30000),
+                                 labels=c("<10,000", "10,000-15,000",
+                                          "15,000-20,000", ">20,000")))
+table(hofpitching$BP.group)
+barplot(table(hofpitching$BP.group), xlab="Batters Faced", ylab="HOF Pitchers", 
+        main="Hall of Fame Pitchers")
+
+pie(table(hofpitching$BP.group))
+
+# 2
+# a
+hist(hofpitching$WAR)
+# b
+top.WAR <- (hofpitching[order(-hofpitching$WAR),]) ; top.WAR <- top.WAR[1:2,c(2,8)]
+top.WAR
+
+# 3
+hofpitching$WAR.Season <- with(hofpitching, WAR / Yrs)
+# a
+stripchart(WAR.Season ~ BP.group, data = hofpitching, 
+           method="jitter", pch=1, las=2, xlab="WAR Season")
+# b
+boxplot(WAR.Season ~ BP.group, data=hofpitching, las=2,
+        horizontal=TRUE, xlab="WAR Season")
+
+# 4
+hofpitching$MidYear <- with(hofpitching, (From + To)/2)
+hofpitching.recent <- subset(hofpitching, MidYear >= 1960)
+hofpitching.recent
+
+# a
+top.WAR.Season <- hofpitching.recent[order(-hofpitching.recent$WAR.Season),]
+# b
+dim(top.WAR.Season)
+plot(top.WAR.Season[,c(2,32)])
+top.WAR.Season[1:2,c(2,32)]
+
+# 5
+# a
+hofpitching <- read.csv("hofpitching.csv")
+hofpitching$MidYear <- with(hofpitching, (From + To)/2)
+hofpitching$WAR.Season <- with(hofpitching, WAR / Yrs)
+
+with(hofpitching, plot(MidYear, WAR.Season))
+
+# b
+with(hofpitching, lines(lowess(MidYear, WAR.Season, f=0.3)))
+# WAR.Season decreasing over time
+
+# c
+with(hofpitching, identify(MidYear, WAR.Season, X, n=2))
+
+
+
+
+
+
