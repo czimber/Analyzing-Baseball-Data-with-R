@@ -23,14 +23,46 @@ plot(myteams$RD, myteams$Wpct,
      xlab="run differential",
      ylab="winning percentage")
 
+        
+
 # Section 4.3 Linear Regression
 
 linfit <- lm(Wpct ~ RD, data=myteams)
+linfit
 
 abline(a=coef(linfit)[1], b=coef(linfit)[2], lwd=2)
 
+###        
+plot(myteams$RD, myteams$R,
+     xlab="Run Differential",
+     ylab="Runs")
+linfit2 <- lm(R ~ RD, data=myteams)
+linfit2
+abline(a=coef(linfit2)[1], b=coef(linfit2)[2], lwd=2)
+##
+###        
+plot(myteams$R, myteams$RD,
+     xlab="Runs",
+     ylab="Run Differential")
+linfit3 <- lm(RD ~ R, data=myteams)
+linfit3
+abline(a=coef(linfit3)[1], b=coef(linfit3)[2], lwd=2, col="red")
+##
+?par
+par("mar")
+
 myteams$linWpct <- predict(linfit)
 myteams$linResiduals <- residuals(linfit)
+class(myteams$linResiduals)
+o <- as.data.frame(myteams$linResiduals)
+order(o)
+
+myteams$linResiduals[278]
+
+        myteams$linWpct <- predict(linfit1)
+        myteams$linResiduals <- residuals(linfit1)
+
+
 
 plot(myteams$RD, myteams$linResiduals,
      xlab="run differential",
@@ -39,6 +71,40 @@ abline(h=0, lty=3)
 points(c(68, 88), c(.0749, -.0733), pch=19)
 text(68, .0749, "LAA '08", pos=4, cex=.8)
 text(88, -.0733, "CLE '06", pos=4, cex=.8)
+###
+subset(myteams,myteams$Wpct>.0748)
+?subset
+###
+x <-xy.coords(myteams$linResiduals)
+class(x)
+
+
+###
+xy.coords(stats::fft(c(1:9)), NULL)
+
+with(cars, xy.coords(dist ~ speed, NULL)$xlab ) # = "speed"
+
+xy.coords(1:3, 1:2, recycle = TRUE)
+xy.coords(-2:10, NULL, log = "y")
+##> warning: 3 y values <= 0 omitted ..
+###
+
+
+plot(myteams$RD, myteams$linResiduals,
+     xlab="run differential",
+     ylab="residual")
+abline(h=0, lty=3)
+points(c(68, 88), c(.0749, -.0733), pch=19,col="dodger blue")
+text(68, .0749, "LAA '08", pos=4, cex=.8)
+text(88, -.0733, "CLE '06", pos=4, cex=.8)
+
+myteams$linResiduals>.0748
+myteams$linResiduals<-0.0733
+
+max(myteams$linResiduals)
+min(myteams$linResiduals)
+
+?points
 
 mean(myteams$linResiduals)
 
