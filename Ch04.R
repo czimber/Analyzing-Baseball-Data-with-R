@@ -132,7 +132,7 @@ pytFit <- lm(logWratio ~ 0 + logRratio, data=myteams)
 pytFit
 
 # Section 4.6  Good and Bad Predictions by the Pythagorean Formula
-
+getwd()
 gl2011 <- read.table("gl2011.txt", sep=",")
 glheaders <- read.csv("game_log_header.csv")
 names(gl2011) <- names(glheaders)
@@ -172,7 +172,7 @@ identify(teams2011$onerunW, teams2011$pytResiduals,
 #...identify data points by mouse-clickin on the plot
 #...then press ESC to finish
 
-pit <- read.csv("lahman/pitching.csv")
+pit <- read.csv("pitching.csv")
 top_closers <- subset(pit, GF > 50 & ERA < 2.5)[ ,c("playerID",
                                                     "yearID", "teamID")]
 
@@ -194,3 +194,4 @@ IRtable$IRW <- IR(IRtable$RS, IRtable$RA)
 xtabs(IRW ~ RS + RA, data=IRtable)
 
 ################################################
+
